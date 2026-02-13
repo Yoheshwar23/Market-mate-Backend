@@ -11,8 +11,6 @@ const dotenv = require("dotenv").config();
 const userRoutes = require("./routes/userRoutes");
 const productRoutes = require("./routes/productRoutes");
 
-
-
 //middlewares
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
