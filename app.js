@@ -11,26 +11,21 @@ const dotenv = require("dotenv").config();
 const userRoutes = require("./routes/userRoutes");
 const productRoutes = require("./routes/productRoutes");
 
-const allowedOrigins = [
-  "http://localhost:5173",
-  "https://market-mate-project.netlify.app/",
-];
+
 
 //middlewares
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(
   cors({
-    origin: function (origin, callback) {
-      if (!origin || allowedOrigins.includes(origin)) {
-        callback(null, true);
-      } else {
-        callback(new Error("Not allowed by CORS"));
-      }
-    },
+    origin: [
+      "http://localhost:5173",
+      "https://market-mate-project.netlify.app",
+    ],
     credentials: true,
   }),
 );
+app.options("*", cors());
 app.use(cookieParser());
 app.use(morgan("dev"));
 
