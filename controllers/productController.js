@@ -291,7 +291,7 @@ module.exports.deleteProduct = async (req, res) => {
 
 module.exports.searchProducts = async (req, res) => {
   try {
-    let { query } = req.query;
+    const { query } = req.query;
 
     if (!query || !query.trim()) {
       return res.status(400).json({
@@ -300,20 +300,16 @@ module.exports.searchProducts = async (req, res) => {
       });
     }
 
-    const keywords = query.trim().split(/\s+/).filter(Boolean);
-
-    const regexConditions = keywords.map((word) => ({
-      $or: [
-        { title: { $regex: word, $options: "i" } },
-        { category: { $regex: word, $options: "i" } },
-        { subCategory: { $regex: word, $options: "i" } },
-        { description: { $regex: word, $options: "i" } },
-      ],
-    }));
-
     const products = await Product.find({
-      $and: regexConditions,
-    }).sort({ createdAt: -1 });
+      $or: [
+        { title: { $regex: query, $options: "i" } },
+        { category: { $regex: query, $options: "i" } },
+        { subCategory: { $regex: query, $options: "i" } },
+        { description: { $regex: query, $options: "i" } },
+      ],
+    })
+      .sort({ createdAt: -1 })
+      .lean();
 
     const formattedProducts = products.map((product) => {
       const data = {
@@ -328,7 +324,6 @@ module.exports.searchProducts = async (req, res) => {
         discount: product.discount ?? null,
       };
 
-      // ✅ add image ONLY if it exists
       if (product.image?.data && product.image?.contentType) {
         data.image = {
           base64: product.image.data.toString("base64"),
@@ -339,7 +334,10 @@ module.exports.searchProducts = async (req, res) => {
       return data;
     });
 
-    return res.status(200).json(formattedProducts);
+    return res.status(200).json({
+      success: true,
+      products: formattedProducts,
+    });
   } catch (error) {
     console.error("Search error:", error);
     return res.status(500).json({
