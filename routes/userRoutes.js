@@ -48,7 +48,7 @@ router.post("/login", loginUser);
 
 router.get("/logout", isUserLoggedIn, logoutUser);
 
-router.get("/myaccount", isUserLoggedIn, isAnyOneLoggedIn);
+router.get("/myaccount", isAuthenticated, isAnyOneLoggedIn);
 
 router.get("/account", isUserLoggedIn, getUser);
 
