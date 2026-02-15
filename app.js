@@ -15,7 +15,7 @@ const productRoutes = require("./routes/productRoutes");
 // FIXED MIDDLEWARE ORDER:
 app.use(cookieParser());  // 🔥 THIS FIRST
 app.use(cors({
-  origin: "https://market-mate-project.netlify.app",
+  origin: "https://market-mate-project.netlify.app/",
   credentials: true,
 }));
 app.use(express.json());
