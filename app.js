@@ -1,6 +1,8 @@
 const express = require("express");
 const app = express();
 
+app.set('trust proxy', 1);
+
 const connectDB = require("./databaseConn/dbConn");
 const cookieParser = require("cookie-parser");
 const morgan = require("morgan");
