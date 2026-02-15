@@ -8,8 +8,8 @@ const jwt = require("jsonwebtoken");
 
 const cookieOptions = {
   httpOnly: true,
-  secure: true,
-  sameSite: "None",
+  secure: false,
+  sameSite: "Lax",
   maxAge: 7 * 24 * 60 * 60 * 1000,
 };
 
