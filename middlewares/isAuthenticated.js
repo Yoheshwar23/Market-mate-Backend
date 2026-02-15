@@ -2,6 +2,8 @@ const jwt = require("jsonwebtoken");
 const User = require("../models/userModel");
 
 module.exports.isAuthenticated = async (req, res, next) => {
+    console.log('🔍 RAW Cookie Header:', req.headers.cookie);  // Key debug
+  console.log('🍪 Parsed Cookies:', req.cookies);
   try {
     console.log("Cookies received:", req.cookies);
 
