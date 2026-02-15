@@ -1,15 +1,11 @@
-const jwt = require("jsonwebtoken");
-const User = require("../models/userModel");
-
 module.exports.isAuthenticated = async (req, res, next) => {
   try {
-    if (!process.env.JWT_SECRET) {
-      throw new Error("JWT_SECRET not defined");
-    }
+    console.log("Cookies received:", req.cookies);
 
     const token = req.cookies?.token;
 
     if (!token) {
+      console.log("No token found");
       return res.status(401).json({
         success: false,
         message: "You must be logged in",
@@ -17,23 +13,21 @@ module.exports.isAuthenticated = async (req, res, next) => {
     }
 
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
+    console.log("Decoded:", decoded);
 
     const account = await User.findById(decoded.id).select("-password");
 
     if (!account) {
+      console.log("User not found in DB");
       return res.status(401).json({
         success: false,
         message: "Account not found",
       });
     }
 
-    req.account = account;
-    req.role = account.role || (account.isAdmin ? "admin" : "user");
-
     next();
   } catch (err) {
-    console.error("Auth error:", err.message);
-
+    console.log("JWT ERROR:", err.message);
     return res.status(401).json({
       success: false,
       message: "Invalid or expired token",
