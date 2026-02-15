@@ -5,6 +5,10 @@ module.exports.isAuthenticated = async (req, res, next) => {
   try {
     console.log("Cookies received:", req.cookies);
 
+    if (!process.env.JWT_SECRET) {
+      throw new Error("JWT_SECRET not defined");
+    }
+
     const token = req.cookies?.token;
 
     if (!token) {
@@ -28,9 +32,14 @@ module.exports.isAuthenticated = async (req, res, next) => {
       });
     }
 
+    req.account = account;
+    req.role = account.role || (account.isAdmin ? "admin" : "user");
+
     next();
   } catch (err) {
     console.log("JWT ERROR:", err.message);
+    console.error("Auth error:", err.message);
+
     return res.status(401).json({
       success: false,
       message: "Invalid or expired token",
