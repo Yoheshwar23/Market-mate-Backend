@@ -9,29 +9,22 @@ const morgan = require("morgan");
 const cors = require("cors");
 const dotenv = require("dotenv").config();
 
-//custom modules
 const userRoutes = require("./routes/userRoutes");
 const productRoutes = require("./routes/productRoutes");
 
-//middlewares
-app.use(cookieParser());
-app.use(
-  cors({
-    origin: "https://market-mate-project.netlify.app",
-    credentials: true,
-  })
-);
-
-
+// FIXED MIDDLEWARE ORDER:
+app.use(cookieParser());  // 🔥 THIS FIRST
+app.use(cors({
+  origin: "https://market-mate-project.netlify.app",
+  credentials: true,
+}));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(morgan("dev"));
 
-//routes
 app.use("/market-mate/user", userRoutes);
 app.use("/market-mate/product", productRoutes);
 
-//server
 const PORT = process.env.PORT || 5000;
 
 connectDB()
