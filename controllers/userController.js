@@ -8,10 +8,10 @@ const jwt = require("jsonwebtoken");
 
 const cookieOptions = {
   httpOnly: true,
-  secure: true,
-  sameSite: "none",
+  secure: false,
+  sameSite: 'lax',
+  path:'/',
   maxAge: 7 * 24 * 60 * 60 * 1000,
-  domain: '.onrender.com'
 };
 
 module.exports.registerUser = async (req, res) => {
