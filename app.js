@@ -18,7 +18,7 @@ app.use(
   cors({
     origin: [
       "http://localhost:5173",
-      "https://market-mate-project.netlify.app",
+      "https://market-mate-project.netlify.app/",
     ],
     credentials: true,
   }),
