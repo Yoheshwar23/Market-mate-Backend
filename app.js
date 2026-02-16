@@ -1,8 +1,6 @@
 const express = require("express");
 const app = express();
 
-app.set('trust proxy', 1);
-
 const connectDB = require("./databaseConn/dbConn");
 const cookieParser = require("cookie-parser");
 const morgan = require("morgan");
@@ -13,7 +11,7 @@ const userRoutes = require("./routes/userRoutes");
 const productRoutes = require("./routes/productRoutes");
 
 // FIXED MIDDLEWARE ORDER:
-app.use(cookieParser());  // 🔥 THIS FIRST
+app.use(cookieParser());
 app.use(cors({
   origin: "https://market-mate-project.netlify.app",
   credentials: true,
