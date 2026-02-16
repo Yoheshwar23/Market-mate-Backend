@@ -8,8 +8,8 @@ const jwt = require("jsonwebtoken");
 
 const cookieOptions = {
   httpOnly: true,
-  secure: false,
-  sameSite: 'lax',
+  secure: true,
+  sameSite: 'none',
   path:'/',
   maxAge: 7 * 24 * 60 * 60 * 1000,
 };
@@ -978,10 +978,10 @@ module.exports.getAllProducts = async (req, res) => {
   }
 };
 
-module.exports.isAnyOneLoggedIn = async (req, res) => {
-  return res.status(200).json({
-    success: true,
-    user: req.account,
-    role: req.role,
-  });
-};
+// module.exports.isAnyOneLoggedIn = async (req, res) => {
+//   return res.status(200).json({
+//     success: true,
+//     user: req.account,
+//     role: req.role,
+//   });
+// };
