@@ -39,7 +39,7 @@ const {
   updateCarousel,
   deleteCarousel,
 } = require("../controllers/carouselController");
-const { isAuthenticated } = require("../middlewares/isAuthenticated");
+
 
 //routes
 router.post("/register", registerUser);
@@ -48,7 +48,7 @@ router.post("/login", loginUser);
 
 router.get("/logout", isUserLoggedIn, logoutUser);
 
-router.get("/myaccount", isAuthenticated, isAnyOneLoggedIn);
+// router.get("/myaccount", isAuthenticated, isAnyOneLoggedIn);
 
 router.get("/account", isUserLoggedIn, getUser);
 
